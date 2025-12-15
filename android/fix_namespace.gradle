@@ -1,0 +1,33 @@
+// Fix for plugins that don't have namespace specified
+// This script automatically adds namespace from AndroidManifest.xml
+// Required for plugins like connectivity_plus that haven't been updated for AGP 8+
+
+allprojects {
+    afterEvaluate { project ->
+        if (project.plugins.hasPlugin("com.android.library")) {
+            def android = project.extensions.findByName("android")
+            if (android != null) {
+                try {
+                    // Check if namespace is already set
+                    def namespace = android.namespace
+                    if (namespace == null || namespace.isEmpty()) {
+                        // Try to read from AndroidManifest.xml
+                        def manifestFile = project.file("src/main/AndroidManifest.xml")
+                        if (manifestFile.exists()) {
+                            def manifestText = manifestFile.text
+                            def packageMatch = manifestText =~ /package=["']([^"']+)["']/
+                            if (packageMatch) {
+                                def packageName = packageMatch[0][1]
+                                android.namespace = packageName
+                                println("✓ Set namespace for ${project.name}: ${packageName}")
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    // Silently handle - some plugins may not need this fix
+                }
+            }
+        }
+    }
+}
+
