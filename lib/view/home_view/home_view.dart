@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:taxi_client_app/app/config/app_config_service.dart';
 import 'package:taxi_client_app/app/config/dynamic_colors.dart';
 import 'package:taxi_client_app/app/config/models/feature_config.dart';
 import 'package:taxi_client_app/app/router/router.gr.dart';
+import 'package:taxi_client_app/models/vendor_model.dart';
+import 'package:taxi_client_app/services/tuwatech_store_service.dart';
 
 @RoutePage()
 class HomeView extends StatefulWidget {
@@ -21,6 +24,11 @@ class _HomeViewState extends State<HomeView> {
   late DynamicColors _colors;
   late HomeFeatureConfig _homeConfig;
   late String _fontFamily;
+
+  // Live Vendors Data from TuwaTech API
+  List<VendorModel> _vendors = [];
+  bool _isLoadingVendors = true;
+  String? _vendorsError;
 
   final List<Map<String, dynamic>> _banners = [
     {'title': 'Summer Sale', 'subtitle': 'Up to 50% OFF', 'gradientIndex': 0},
@@ -98,12 +106,33 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     _loadConfig();
+    _fetchVendors();
   }
 
   void _loadConfig() {
     _colors = DynamicColors.instance;
     _homeConfig = AppConfigService.instance.getHomeConfig();
     _fontFamily = AppConfigService.instance.fontFamily;
+  }
+
+  Future<void> _fetchVendors() async {
+    try {
+      tuwaTechStoreService.init();
+      final response = await tuwaTechStoreService.getVendors(limit: 10);
+      if (mounted) {
+        setState(() {
+          _vendors = response.vendors;
+          _isLoadingVendors = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _vendorsError = 'Failed to load vendors';
+          _isLoadingVendors = false;
+        });
+      }
+    }
   }
 
   @override
@@ -134,6 +163,16 @@ class _HomeViewState extends State<HomeView> {
 
             // Categories Section (configurable)
             if (_homeConfig.showCategories) SliverToBoxAdapter(child: _buildCategoriesSection()),
+
+            // Live Vendors Section (from TuwaTech API)
+            SliverToBoxAdapter(
+              child: _buildSectionHeader(
+                'Popular Vendors',
+                '🏪',
+                onTap: () => context.router.push(const VendorsView()),
+              ),
+            ),
+            SliverToBoxAdapter(child: _buildVendorsSection()),
 
             // Flash Deals Section (configurable)
             if (_homeConfig.showFlashDeals) ...[
@@ -500,6 +539,170 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildVendorsSection() {
+    if (_isLoadingVendors) {
+      return SizedBox(
+        height: 180,
+        child: Center(child: CircularProgressIndicator(color: _colors.primary)),
+      );
+    }
+
+    if (_vendorsError != null || _vendors.isEmpty) {
+      return Container(
+        height: 120,
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(color: _colors.surface, borderRadius: BorderRadius.circular(16)),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.store_outlined, size: 32, color: _colors.textDisabled),
+              const SizedBox(height: 8),
+              Text(
+                _vendorsError ?? 'No vendors available',
+                style: TextStyle(fontFamily: _fontFamily, fontSize: 14, color: _colors.textSecondary),
+              ),
+              if (_vendorsError != null)
+                TextButton(
+                  onPressed: _fetchVendors,
+                  child: Text('Retry', style: TextStyle(color: _colors.primary)),
+                ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return SizedBox(
+      height: 180,
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        scrollDirection: Axis.horizontal,
+        itemCount: _vendors.length,
+        itemBuilder: (context, index) {
+          final vendor = _vendors[index];
+          return GestureDetector(
+            onTap: () => context.router.push(VendorDetailsView(handle: vendor.handle)),
+            child: Container(
+              width: 160,
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              decoration: BoxDecoration(
+                color: _colors.surface,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: _colors.shadow.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Vendor Logo
+                  Container(
+                    width: 160,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: _colors.primary.withOpacity(0.1),
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                    ),
+                    child: Center(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: vendor.logo != null
+                            ? CachedNetworkImage(
+                                imageUrl: vendor.logo!,
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => Container(
+                                  width: 50,
+                                  height: 50,
+                                  color: _colors.primary.withOpacity(0.2),
+                                  child: Icon(Icons.store, color: _colors.primary),
+                                ),
+                                errorWidget: (context, url, error) => Container(
+                                  width: 50,
+                                  height: 50,
+                                  color: _colors.primary.withOpacity(0.2),
+                                  child: Icon(Icons.store, color: _colors.primary),
+                                ),
+                              )
+                            : Icon(Icons.store, color: _colors.primary, size: 36),
+                      ),
+                    ),
+                  ),
+                  // Vendor Info
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          vendor.name,
+                          style: TextStyle(
+                            fontFamily: _fontFamily,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: _colors.textPrimary,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.star, size: 14, color: _colors.warning),
+                            const SizedBox(width: 4),
+                            Text(
+                              vendor.rating.toStringAsFixed(1),
+                              style: TextStyle(
+                                fontFamily: _fontFamily,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: _colors.textPrimary,
+                              ),
+                            ),
+                            Text(
+                              ' (${vendor.totalReviews})',
+                              style: TextStyle(
+                                fontFamily: _fontFamily,
+                                fontSize: 11,
+                                color: _colors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
+                        if (vendor.city != null)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Text(
+                              vendor.city!,
+                              style: TextStyle(
+                                fontFamily: _fontFamily,
+                                fontSize: 11,
+                                color: _colors.textDisabled,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 

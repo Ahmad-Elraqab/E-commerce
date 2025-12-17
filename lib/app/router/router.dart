@@ -41,5 +41,9 @@ class AppRouter extends $AppRouter {
     AutoRoute(page: OrderDetailsView.page, path: '/order/:orderId'),
     AutoRoute(page: WishlistView.page, path: '/wishlist'),
     AutoRoute(page: SearchView.page, path: '/search'),
+
+    // Vendor Routes (TuwaTech Store Integration)
+    AutoRoute(page: VendorsView.page, path: '/vendors'),
+    AutoRoute(page: VendorDetailsView.page, path: '/vendor/:handle'),
   ];
 }

@@ -8,8 +8,8 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i16;
-import 'package:flutter/material.dart' as _i17;
+import 'package:auto_route/auto_route.dart' as _i18;
+import 'package:flutter/material.dart' as _i19;
 import 'package:taxi_client_app/view/auth/login_view.dart' deferred as _i5;
 import 'package:taxi_client_app/view/auth/register_view.dart' deferred as _i12;
 import 'package:taxi_client_app/view/cart_view/cart_view.dart' deferred as _i1;
@@ -33,63 +33,67 @@ import 'package:taxi_client_app/view/search_view/search_view.dart'
     deferred as _i13;
 import 'package:taxi_client_app/view/splash_view/splash_view.dart'
     deferred as _i14;
-import 'package:taxi_client_app/view/wishlist_view/wishlist_view.dart'
+import 'package:taxi_client_app/view/vendors_view/vendor_details_view.dart'
     deferred as _i15;
+import 'package:taxi_client_app/view/vendors_view/vendors_view.dart'
+    deferred as _i16;
+import 'package:taxi_client_app/view/wishlist_view/wishlist_view.dart'
+    deferred as _i17;
 
-abstract class $AppRouter extends _i16.RootStackRouter {
+abstract class $AppRouter extends _i18.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i16.PageFactory> pagesMap = {
+  final Map<String, _i18.PageFactory> pagesMap = {
     CartView.name: (routeData) {
-      return _i16.AutoRoutePage<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.DeferredWidget(
+        child: _i18.DeferredWidget(
           _i1.loadLibrary,
           () => _i1.CartView(),
         ),
       );
     },
     CategoriesView.name: (routeData) {
-      return _i16.AutoRoutePage<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.DeferredWidget(
+        child: _i18.DeferredWidget(
           _i2.loadLibrary,
           () => _i2.CategoriesView(),
         ),
       );
     },
     CheckoutView.name: (routeData) {
-      return _i16.AutoRoutePage<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.DeferredWidget(
+        child: _i18.DeferredWidget(
           _i3.loadLibrary,
           () => _i3.CheckoutView(),
         ),
       );
     },
     HomeView.name: (routeData) {
-      return _i16.AutoRoutePage<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.DeferredWidget(
+        child: _i18.DeferredWidget(
           _i4.loadLibrary,
           () => _i4.HomeView(),
         ),
       );
     },
     LoginView.name: (routeData) {
-      return _i16.AutoRoutePage<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.DeferredWidget(
+        child: _i18.DeferredWidget(
           _i5.loadLibrary,
           () => _i5.LoginView(),
         ),
       );
     },
     MainView.name: (routeData) {
-      return _i16.AutoRoutePage<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.DeferredWidget(
+        child: _i18.DeferredWidget(
           _i6.loadLibrary,
           () => _i6.MainView(),
         ),
@@ -97,9 +101,9 @@ abstract class $AppRouter extends _i16.RootStackRouter {
     },
     OrderDetailsView.name: (routeData) {
       final args = routeData.argsAs<OrderDetailsViewArgs>();
-      return _i16.AutoRoutePage<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.DeferredWidget(
+        child: _i18.DeferredWidget(
           _i7.loadLibrary,
           () => _i7.OrderDetailsView(
             key: args.key,
@@ -109,9 +113,9 @@ abstract class $AppRouter extends _i16.RootStackRouter {
       );
     },
     OrdersView.name: (routeData) {
-      return _i16.AutoRoutePage<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.DeferredWidget(
+        child: _i18.DeferredWidget(
           _i8.loadLibrary,
           () => _i8.OrdersView(),
         ),
@@ -119,9 +123,9 @@ abstract class $AppRouter extends _i16.RootStackRouter {
     },
     ProductDetailsView.name: (routeData) {
       final args = routeData.argsAs<ProductDetailsViewArgs>();
-      return _i16.AutoRoutePage<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.DeferredWidget(
+        child: _i18.DeferredWidget(
           _i9.loadLibrary,
           () => _i9.ProductDetailsView(
             key: args.key,
@@ -133,9 +137,9 @@ abstract class $AppRouter extends _i16.RootStackRouter {
     ProductsView.name: (routeData) {
       final args = routeData.argsAs<ProductsViewArgs>(
           orElse: () => const ProductsViewArgs());
-      return _i16.AutoRoutePage<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.DeferredWidget(
+        child: _i18.DeferredWidget(
           _i10.loadLibrary,
           () => _i10.ProductsView(
             key: args.key,
@@ -145,47 +149,72 @@ abstract class $AppRouter extends _i16.RootStackRouter {
       );
     },
     ProfileView.name: (routeData) {
-      return _i16.AutoRoutePage<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.DeferredWidget(
+        child: _i18.DeferredWidget(
           _i11.loadLibrary,
           () => _i11.ProfileView(),
         ),
       );
     },
     RegisterView.name: (routeData) {
-      return _i16.AutoRoutePage<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.DeferredWidget(
+        child: _i18.DeferredWidget(
           _i12.loadLibrary,
           () => _i12.RegisterView(),
         ),
       );
     },
     SearchView.name: (routeData) {
-      return _i16.AutoRoutePage<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.DeferredWidget(
+        child: _i18.DeferredWidget(
           _i13.loadLibrary,
           () => _i13.SearchView(),
         ),
       );
     },
     SplashView.name: (routeData) {
-      return _i16.AutoRoutePage<dynamic>(
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.DeferredWidget(
+        child: _i18.DeferredWidget(
           _i14.loadLibrary,
           () => _i14.SplashView(),
         ),
       );
     },
-    WishlistView.name: (routeData) {
-      return _i16.AutoRoutePage<dynamic>(
+    VendorDetailsView.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<VendorDetailsViewArgs>(
+          orElse: () =>
+              VendorDetailsViewArgs(handle: pathParams.getString('handle')));
+      return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.DeferredWidget(
+        child: _i18.DeferredWidget(
           _i15.loadLibrary,
-          () => _i15.WishlistView(),
+          () => _i15.VendorDetailsView(
+            key: args.key,
+            handle: args.handle,
+          ),
+        ),
+      );
+    },
+    VendorsView.name: (routeData) {
+      return _i18.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i18.DeferredWidget(
+          _i16.loadLibrary,
+          () => _i16.VendorsView(),
+        ),
+      );
+    },
+    WishlistView.name: (routeData) {
+      return _i18.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i18.DeferredWidget(
+          _i17.loadLibrary,
+          () => _i17.WishlistView(),
         ),
       );
     },
@@ -194,8 +223,8 @@ abstract class $AppRouter extends _i16.RootStackRouter {
 
 /// generated route for
 /// [_i1.CartView]
-class CartView extends _i16.PageRouteInfo<void> {
-  const CartView({List<_i16.PageRouteInfo>? children})
+class CartView extends _i18.PageRouteInfo<void> {
+  const CartView({List<_i18.PageRouteInfo>? children})
       : super(
           CartView.name,
           initialChildren: children,
@@ -203,13 +232,13 @@ class CartView extends _i16.PageRouteInfo<void> {
 
   static const String name = 'CartView';
 
-  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i2.CategoriesView]
-class CategoriesView extends _i16.PageRouteInfo<void> {
-  const CategoriesView({List<_i16.PageRouteInfo>? children})
+class CategoriesView extends _i18.PageRouteInfo<void> {
+  const CategoriesView({List<_i18.PageRouteInfo>? children})
       : super(
           CategoriesView.name,
           initialChildren: children,
@@ -217,13 +246,13 @@ class CategoriesView extends _i16.PageRouteInfo<void> {
 
   static const String name = 'CategoriesView';
 
-  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i3.CheckoutView]
-class CheckoutView extends _i16.PageRouteInfo<void> {
-  const CheckoutView({List<_i16.PageRouteInfo>? children})
+class CheckoutView extends _i18.PageRouteInfo<void> {
+  const CheckoutView({List<_i18.PageRouteInfo>? children})
       : super(
           CheckoutView.name,
           initialChildren: children,
@@ -231,13 +260,13 @@ class CheckoutView extends _i16.PageRouteInfo<void> {
 
   static const String name = 'CheckoutView';
 
-  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i4.HomeView]
-class HomeView extends _i16.PageRouteInfo<void> {
-  const HomeView({List<_i16.PageRouteInfo>? children})
+class HomeView extends _i18.PageRouteInfo<void> {
+  const HomeView({List<_i18.PageRouteInfo>? children})
       : super(
           HomeView.name,
           initialChildren: children,
@@ -245,13 +274,13 @@ class HomeView extends _i16.PageRouteInfo<void> {
 
   static const String name = 'HomeView';
 
-  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i5.LoginView]
-class LoginView extends _i16.PageRouteInfo<void> {
-  const LoginView({List<_i16.PageRouteInfo>? children})
+class LoginView extends _i18.PageRouteInfo<void> {
+  const LoginView({List<_i18.PageRouteInfo>? children})
       : super(
           LoginView.name,
           initialChildren: children,
@@ -259,13 +288,13 @@ class LoginView extends _i16.PageRouteInfo<void> {
 
   static const String name = 'LoginView';
 
-  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i6.MainView]
-class MainView extends _i16.PageRouteInfo<void> {
-  const MainView({List<_i16.PageRouteInfo>? children})
+class MainView extends _i18.PageRouteInfo<void> {
+  const MainView({List<_i18.PageRouteInfo>? children})
       : super(
           MainView.name,
           initialChildren: children,
@@ -273,16 +302,16 @@ class MainView extends _i16.PageRouteInfo<void> {
 
   static const String name = 'MainView';
 
-  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i7.OrderDetailsView]
-class OrderDetailsView extends _i16.PageRouteInfo<OrderDetailsViewArgs> {
+class OrderDetailsView extends _i18.PageRouteInfo<OrderDetailsViewArgs> {
   OrderDetailsView({
-    _i17.Key? key,
+    _i19.Key? key,
     required String orderId,
-    List<_i16.PageRouteInfo>? children,
+    List<_i18.PageRouteInfo>? children,
   }) : super(
           OrderDetailsView.name,
           args: OrderDetailsViewArgs(
@@ -294,8 +323,8 @@ class OrderDetailsView extends _i16.PageRouteInfo<OrderDetailsViewArgs> {
 
   static const String name = 'OrderDetailsView';
 
-  static const _i16.PageInfo<OrderDetailsViewArgs> page =
-      _i16.PageInfo<OrderDetailsViewArgs>(name);
+  static const _i18.PageInfo<OrderDetailsViewArgs> page =
+      _i18.PageInfo<OrderDetailsViewArgs>(name);
 }
 
 class OrderDetailsViewArgs {
@@ -304,7 +333,7 @@ class OrderDetailsViewArgs {
     required this.orderId,
   });
 
-  final _i17.Key? key;
+  final _i19.Key? key;
 
   final String orderId;
 
@@ -316,8 +345,8 @@ class OrderDetailsViewArgs {
 
 /// generated route for
 /// [_i8.OrdersView]
-class OrdersView extends _i16.PageRouteInfo<void> {
-  const OrdersView({List<_i16.PageRouteInfo>? children})
+class OrdersView extends _i18.PageRouteInfo<void> {
+  const OrdersView({List<_i18.PageRouteInfo>? children})
       : super(
           OrdersView.name,
           initialChildren: children,
@@ -325,16 +354,16 @@ class OrdersView extends _i16.PageRouteInfo<void> {
 
   static const String name = 'OrdersView';
 
-  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i9.ProductDetailsView]
-class ProductDetailsView extends _i16.PageRouteInfo<ProductDetailsViewArgs> {
+class ProductDetailsView extends _i18.PageRouteInfo<ProductDetailsViewArgs> {
   ProductDetailsView({
-    _i17.Key? key,
+    _i19.Key? key,
     required String productId,
-    List<_i16.PageRouteInfo>? children,
+    List<_i18.PageRouteInfo>? children,
   }) : super(
           ProductDetailsView.name,
           args: ProductDetailsViewArgs(
@@ -346,8 +375,8 @@ class ProductDetailsView extends _i16.PageRouteInfo<ProductDetailsViewArgs> {
 
   static const String name = 'ProductDetailsView';
 
-  static const _i16.PageInfo<ProductDetailsViewArgs> page =
-      _i16.PageInfo<ProductDetailsViewArgs>(name);
+  static const _i18.PageInfo<ProductDetailsViewArgs> page =
+      _i18.PageInfo<ProductDetailsViewArgs>(name);
 }
 
 class ProductDetailsViewArgs {
@@ -356,7 +385,7 @@ class ProductDetailsViewArgs {
     required this.productId,
   });
 
-  final _i17.Key? key;
+  final _i19.Key? key;
 
   final String productId;
 
@@ -368,11 +397,11 @@ class ProductDetailsViewArgs {
 
 /// generated route for
 /// [_i10.ProductsView]
-class ProductsView extends _i16.PageRouteInfo<ProductsViewArgs> {
+class ProductsView extends _i18.PageRouteInfo<ProductsViewArgs> {
   ProductsView({
-    _i17.Key? key,
+    _i19.Key? key,
     String? category,
-    List<_i16.PageRouteInfo>? children,
+    List<_i18.PageRouteInfo>? children,
   }) : super(
           ProductsView.name,
           args: ProductsViewArgs(
@@ -384,8 +413,8 @@ class ProductsView extends _i16.PageRouteInfo<ProductsViewArgs> {
 
   static const String name = 'ProductsView';
 
-  static const _i16.PageInfo<ProductsViewArgs> page =
-      _i16.PageInfo<ProductsViewArgs>(name);
+  static const _i18.PageInfo<ProductsViewArgs> page =
+      _i18.PageInfo<ProductsViewArgs>(name);
 }
 
 class ProductsViewArgs {
@@ -394,7 +423,7 @@ class ProductsViewArgs {
     this.category,
   });
 
-  final _i17.Key? key;
+  final _i19.Key? key;
 
   final String? category;
 
@@ -406,8 +435,8 @@ class ProductsViewArgs {
 
 /// generated route for
 /// [_i11.ProfileView]
-class ProfileView extends _i16.PageRouteInfo<void> {
-  const ProfileView({List<_i16.PageRouteInfo>? children})
+class ProfileView extends _i18.PageRouteInfo<void> {
+  const ProfileView({List<_i18.PageRouteInfo>? children})
       : super(
           ProfileView.name,
           initialChildren: children,
@@ -415,13 +444,13 @@ class ProfileView extends _i16.PageRouteInfo<void> {
 
   static const String name = 'ProfileView';
 
-  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i12.RegisterView]
-class RegisterView extends _i16.PageRouteInfo<void> {
-  const RegisterView({List<_i16.PageRouteInfo>? children})
+class RegisterView extends _i18.PageRouteInfo<void> {
+  const RegisterView({List<_i18.PageRouteInfo>? children})
       : super(
           RegisterView.name,
           initialChildren: children,
@@ -429,13 +458,13 @@ class RegisterView extends _i16.PageRouteInfo<void> {
 
   static const String name = 'RegisterView';
 
-  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i13.SearchView]
-class SearchView extends _i16.PageRouteInfo<void> {
-  const SearchView({List<_i16.PageRouteInfo>? children})
+class SearchView extends _i18.PageRouteInfo<void> {
+  const SearchView({List<_i18.PageRouteInfo>? children})
       : super(
           SearchView.name,
           initialChildren: children,
@@ -443,13 +472,13 @@ class SearchView extends _i16.PageRouteInfo<void> {
 
   static const String name = 'SearchView';
 
-  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i14.SplashView]
-class SplashView extends _i16.PageRouteInfo<void> {
-  const SplashView({List<_i16.PageRouteInfo>? children})
+class SplashView extends _i18.PageRouteInfo<void> {
+  const SplashView({List<_i18.PageRouteInfo>? children})
       : super(
           SplashView.name,
           initialChildren: children,
@@ -457,13 +486,66 @@ class SplashView extends _i16.PageRouteInfo<void> {
 
   static const String name = 'SplashView';
 
-  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i15.WishlistView]
-class WishlistView extends _i16.PageRouteInfo<void> {
-  const WishlistView({List<_i16.PageRouteInfo>? children})
+/// [_i15.VendorDetailsView]
+class VendorDetailsView extends _i18.PageRouteInfo<VendorDetailsViewArgs> {
+  VendorDetailsView({
+    _i19.Key? key,
+    required String handle,
+    List<_i18.PageRouteInfo>? children,
+  }) : super(
+          VendorDetailsView.name,
+          args: VendorDetailsViewArgs(
+            key: key,
+            handle: handle,
+          ),
+          rawPathParams: {'handle': handle},
+          initialChildren: children,
+        );
+
+  static const String name = 'VendorDetailsView';
+
+  static const _i18.PageInfo<VendorDetailsViewArgs> page =
+      _i18.PageInfo<VendorDetailsViewArgs>(name);
+}
+
+class VendorDetailsViewArgs {
+  const VendorDetailsViewArgs({
+    this.key,
+    required this.handle,
+  });
+
+  final _i19.Key? key;
+
+  final String handle;
+
+  @override
+  String toString() {
+    return 'VendorDetailsViewArgs{key: $key, handle: $handle}';
+  }
+}
+
+/// generated route for
+/// [_i16.VendorsView]
+class VendorsView extends _i18.PageRouteInfo<void> {
+  const VendorsView({List<_i18.PageRouteInfo>? children})
+      : super(
+          VendorsView.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'VendorsView';
+
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i17.WishlistView]
+class WishlistView extends _i18.PageRouteInfo<void> {
+  const WishlistView({List<_i18.PageRouteInfo>? children})
       : super(
           WishlistView.name,
           initialChildren: children,
@@ -471,5 +553,5 @@ class WishlistView extends _i16.PageRouteInfo<void> {
 
   static const String name = 'WishlistView';
 
-  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
 }
