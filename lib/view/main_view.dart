@@ -1,11 +1,10 @@
 import 'package:taxi_client_app/app/app_view_models/app_view_model.dart';
-import 'package:taxi_client_app/app/env/app_color.dart';
+import 'package:taxi_client_app/app/config/dynamic_colors.dart';
 import 'package:taxi_client_app/app/router/router.gr.dart';
+import 'package:taxi_client_app/app/widgets/configurable_bottom_navigation.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../app/widgets/bottom_navigation.dart';
 
 @RoutePage()
 class MainView extends StatefulWidget {
@@ -18,36 +17,23 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   @override
   void initState() {
-    // context.read<UserViewModel>().checkToken(
-    //   onError: (val) {
-    //     context.router.pushAndPopUntil(LoginView(), predicate: (route) => route.settings.name == 'Main');
-    //   },
-    //   onSuccess: (val) {
-    //     print("Valid session");
-    //   },
-    // );
-    // checkSession();
     super.initState();
   }
 
-  // Future<void> checkSession() async {
-  //   final token = await context.read<AuthTokenStorage>().getToken();
-  //   final user = await context.read<FlutterSecureStorage>().read(key: 'user');
-
-  //   if (token == null) {
-  //     // ignore: use_build_context_synchronously
-  //     context.router.replace(const LoginView());
-  //   } else {
-  //     context.read<UserViewModel>().user =
-  //         UserModel.fromJson(json.decode(user.toString()));
-  //   }
-  // }
+  // Provide badge counts for navigation items
+  Map<String, int>? _getBadgeCounts() {
+    // You can connect this to your state management
+    // to provide real badge counts
+    return {'cart': 2, 'notifications': 3};
+  }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
+    final colors = DynamicColors.instance;
+
     return Scaffold(
-      backgroundColor: AppColor.reWhiteFFFFFF,
+      backgroundColor: colors.surface,
       body: AutoTabsRouter(
         lazyLoad: true,
         routes: const [HomeView(), CategoriesView(), OrdersView(), ProfileView()],
@@ -58,7 +44,11 @@ class _MainViewState extends State<MainView> {
           return Stack(
             children: [
               child,
-              BottomNavigation(width: width, tabsRouter: context.watch<AppViewModel>().tabsRouter!),
+              ConfigurableBottomNavigation(
+                width: width,
+                tabsRouter: context.watch<AppViewModel>().tabsRouter!,
+                onBadgeUpdate: _getBadgeCounts,
+              ),
             ],
           );
         },

@@ -1,0 +1,569 @@
+{
+  "$schema": "app_config_schema",
+  "version": "1.0.0",
+  "lastUpdated": "2025-12-16",
+
+  "app": {
+    "name": "ShopEase",
+    "tagline": "Shop Smart, Live Better",
+    "bundleId": "com.shopease.app",
+    "appStoreUrl": "https://apps.apple.com/app/shopease",
+    "playStoreUrl": "https://play.google.com/store/apps/details?id=com.shopease.app",
+    "websiteUrl": "https://shopease.com",
+    "supportEmail": "support@shopease.com",
+    "privacyPolicyUrl": "https://shopease.com/privacy",
+    "termsOfServiceUrl": "https://shopease.com/terms"
+  },
+
+  "branding": {
+    "logo": {
+      "small": "assets/images/logo-small.png",
+      "medium": "assets/images/logo-large.png",
+      "large": "assets/images/logo-extra-large.png",
+      "splash": "assets/images/logo-large.png",
+      "showLogoOnSplash": true,
+      "showLogoOnAppBar": false,
+      "logoType": "image"
+    },
+    "appIcon": {
+      "foreground": "assets/images/logo-small.png",
+      "background": "#FF9500"
+    }
+  },
+
+  "theme": {
+    "mode": "light",
+    "supportDarkMode": true,
+    
+    "colors": {
+      "primary": {
+        "main": "#FF9500",
+        "light": "#FFB347",
+        "dark": "#E68600",
+        "contrast": "#FFFFFF"
+      },
+      "secondary": {
+        "main": "#105F82",
+        "light": "#1A7FAD",
+        "dark": "#0A4A66",
+        "contrast": "#FFFFFF"
+      },
+      "tertiary": {
+        "main": "#6A6AF6",
+        "light": "#8A8AF8",
+        "dark": "#5050E0",
+        "contrast": "#FFFFFF"
+      },
+      "accent": {
+        "main": "#1CBECA",
+        "light": "#4DD0D9",
+        "dark": "#159BA5",
+        "contrast": "#FFFFFF"
+      },
+      "success": {
+        "main": "#00AF6C",
+        "light": "#BEE988",
+        "dark": "#3E650D",
+        "contrast": "#FFFFFF"
+      },
+      "warning": {
+        "main": "#FAD204",
+        "light": "#F7E790",
+        "dark": "#685805",
+        "contrast": "#000000"
+      },
+      "error": {
+        "main": "#FF3B30",
+        "light": "#F3B7B7",
+        "dark": "#700707",
+        "contrast": "#FFFFFF"
+      },
+      "info": {
+        "main": "#2452F5",
+        "light": "#CFD8F9",
+        "dark": "#142F8C",
+        "contrast": "#FFFFFF"
+      },
+      "background": {
+        "default": "#F9F9F9",
+        "paper": "#FFFFFF",
+        "elevated": "#FFFFFF",
+        "disabled": "#EBEBEB"
+      },
+      "surface": {
+        "default": "#FFFFFF",
+        "variant": "#FAFAFA",
+        "inverse": "#1C1F26"
+      },
+      "text": {
+        "primary": "#252525",
+        "secondary": "#666666",
+        "disabled": "#9C9C9C",
+        "hint": "#A5A5A5",
+        "inverse": "#FFFFFF"
+      },
+      "border": {
+        "default": "#D7D7D7",
+        "light": "#EBEBEB",
+        "dark": "#C3C3C3"
+      },
+      "divider": "#EEEEEE",
+      "shadow": "#00000014"
+    },
+
+    "gradients": {
+      "primary": ["#FF9500", "#FFB347"],
+      "splash": ["#FF9500", "#E68600"],
+      "card": ["#FFFFFF", "#FAFAFA"],
+      "banner1": ["#FF6B6B", "#FF8E53"],
+      "banner2": ["#4ECDC4", "#44A08D"],
+      "banner3": ["#667EEA", "#764BA2"]
+    },
+
+    "typography": {
+      "fontFamily": "Poppins",
+      "fontFamilySecondary": "Poppins",
+      "baseFontSize": 14,
+      "scaleFactor": 1.0
+    },
+
+    "borderRadius": {
+      "none": 0,
+      "small": 8,
+      "medium": 12,
+      "large": 16,
+      "xl": 20,
+      "xxl": 24,
+      "full": 9999
+    },
+
+    "spacing": {
+      "xs": 4,
+      "sm": 8,
+      "md": 16,
+      "lg": 24,
+      "xl": 32,
+      "xxl": 48
+    },
+
+    "shadows": {
+      "none": "0 0 0 0",
+      "small": "0 2 4 0.05",
+      "medium": "0 4 10 0.05",
+      "large": "0 8 20 0.08",
+      "xl": "0 15 30 0.1"
+    }
+  },
+
+  "features": {
+    "core": {
+      "enabled": true,
+      "priority": 1,
+      "items": {
+        "authentication": {
+          "enabled": true,
+          "allowGuestBrowsing": true,
+          "socialLogin": {
+            "enabled": true,
+            "providers": ["google", "apple", "facebook"]
+          },
+          "biometricLogin": {
+            "enabled": true
+          },
+          "phoneAuth": {
+            "enabled": false
+          }
+        },
+        "splash": {
+          "enabled": true,
+          "duration": 3000,
+          "showLogo": true,
+          "showLoading": true,
+          "showTagline": true
+        },
+        "onboarding": {
+          "enabled": false,
+          "screens": []
+        }
+      }
+    },
+    
+    "primary": {
+      "enabled": true,
+      "priority": 2,
+      "items": {
+        "home": {
+          "enabled": true,
+          "showSearchBar": true,
+          "showBannerCarousel": true,
+          "showCategories": true,
+          "showFlashDeals": true,
+          "showFeaturedProducts": true,
+          "showRecommendations": true,
+          "maxBanners": 1,
+          "categoriesDisplayMode": "horizontal"
+        },
+        "categories": {
+          "enabled": true,
+          "displayMode": "grid",
+          "showSubcategories": true,
+          "showProductCount": true
+        },
+        "products": {
+          "enabled": true,
+          "displayMode": "grid",
+          "showFilters": true,
+          "showSorting": true,
+          "showRatings": true,
+          "showPriceRange": true
+        },
+        "productDetails": {
+          "enabled": true,
+          "showGallery": true,
+          "showReviews": true,
+          "showRelatedProducts": true,
+          "showAddToCart": true,
+          "showBuyNow": true,
+          "showWishlist": true,
+          "showShare": true
+        }
+      }
+    },
+
+    "secondary": {
+      "enabled": true,
+      "priority": 3,
+      "items": {
+        "cart": {
+          "enabled": true,
+          "showCoupons": true,
+          "showSavedForLater": false,
+          "maxQuantityPerItem": 10
+        },
+        "checkout": {
+          "enabled": true,
+          "showGuestCheckout": true,
+          "paymentMethods": ["card", "cash", "wallet"],
+          "showOrderSummary": true,
+          "showDeliveryOptions": true
+        },
+        "orders": {
+          "enabled": true,
+          "showOrderTracking": true,
+          "showOrderHistory": true,
+          "showReorder": true,
+          "allowCancellation": true
+        },
+        "wishlist": {
+          "enabled": true,
+          "showShareWishlist": false,
+          "showMoveToCart": true
+        }
+      }
+    },
+
+    "tertiary": {
+      "enabled": true,
+      "priority": 4,
+      "items": {
+        "profile": {
+          "enabled": true,
+          "showAvatar": true,
+          "showEditProfile": true,
+          "showAddresses": true,
+          "showPaymentMethods": true,
+          "showOrderHistory": true,
+          "showNotificationSettings": true,
+          "showLanguageSettings": true,
+          "showThemeSettings": true
+        },
+        "search": {
+          "enabled": true,
+          "showRecentSearches": true,
+          "showPopularSearches": true,
+          "showSearchSuggestions": true,
+          "showVoiceSearch": false,
+          "showBarcodeScanner": false
+        },
+        "notifications": {
+          "enabled": true,
+          "showPush": true,
+          "showInApp": true,
+          "categories": ["orders", "promotions", "system"]
+        }
+      }
+    },
+
+    "optional": {
+      "enabled": true,
+      "priority": 5,
+      "items": {
+        "reviews": {
+          "enabled": true,
+          "allowUserReviews": true,
+          "showPhotos": true,
+          "requirePurchase": false
+        },
+        "chat": {
+          "enabled": false,
+          "showLiveChat": false,
+          "showChatbot": false
+        },
+        "loyalty": {
+          "enabled": false,
+          "showPoints": false,
+          "showRewards": false
+        },
+        "referral": {
+          "enabled": false,
+          "showReferralCode": false,
+          "showReferralHistory": false
+        }
+      }
+    }
+  },
+
+  "navigation": {
+    "bottomNav": {
+      "enabled": true,
+      "style": "modern",
+      "showLabels": true,
+      "showBadges": true,
+      "items": [
+        {
+          "id": "home",
+          "label": "Home",
+          "icon": "home_outlined",
+          "activeIcon": "home",
+          "route": "/home",
+          "enabled": true,
+          "order": 1,
+          "badge": null
+        },
+        {
+          "id": "categories",
+          "label": "Categories",
+          "icon": "grid_view_outlined",
+          "activeIcon": "grid_view",
+          "route": "/categories",
+          "enabled": true,
+          "order": 2,
+          "badge": null
+        },
+        {
+          "id": "orders",
+          "label": "Orders",
+          "icon": "receipt_long_outlined",
+          "activeIcon": "receipt_long",
+          "route": "/orders",
+          "enabled": true,
+          "order": 3,
+          "badge": null
+        },
+        {
+          "id": "profile",
+          "label": "Profile",
+          "icon": "person_outline",
+          "activeIcon": "person",
+          "route": "/profile",
+          "enabled": true,
+          "order": 4,
+          "badge": null
+        }
+      ]
+    },
+
+    "appBar": {
+      "showBackButton": true,
+      "showLogo": false,
+      "showSearch": true,
+      "showCart": true,
+      "showNotifications": true,
+      "centerTitle": true,
+      "elevation": 0
+    },
+
+    "drawer": {
+      "enabled": false,
+      "showHeader": true,
+      "showUserInfo": true,
+      "items": []
+    }
+  },
+
+  "ui": {
+    "splash": {
+      "backgroundColor": "primary",
+      "useGradient": true,
+      "showCircles": true,
+      "animationType": "scale_fade"
+    },
+
+    "appBar": {
+      "height": 56,
+      "backgroundColor": "transparent",
+      "foregroundColor": "text.primary",
+      "elevation": 0,
+      "centerTitle": true
+    },
+
+    "bottomNav": {
+      "height": 80,
+      "backgroundColor": "surface.default",
+      "selectedItemColor": "primary.main",
+      "unselectedItemColor": "text.disabled",
+      "showSelectedLabels": true,
+      "showUnselectedLabels": false,
+      "type": "shifting"
+    },
+
+    "cards": {
+      "elevation": 0,
+      "borderRadius": "large",
+      "shadowColor": "shadow",
+      "backgroundColor": "surface.default"
+    },
+
+    "buttons": {
+      "borderRadius": "medium",
+      "height": 48,
+      "elevation": 0
+    },
+
+    "inputs": {
+      "borderRadius": "large",
+      "height": 52,
+      "borderWidth": 1,
+      "focusBorderWidth": 2
+    },
+
+    "lists": {
+      "itemSpacing": 12,
+      "sectionSpacing": 24,
+      "showDividers": false
+    },
+
+    "images": {
+      "placeholderColor": "background.disabled",
+      "errorPlaceholder": "assets/images/placeholder.png",
+      "loadingIndicator": "shimmer",
+      "borderRadius": "medium"
+    },
+
+    "animations": {
+      "enabled": true,
+      "duration": {
+        "fast": 150,
+        "normal": 300,
+        "slow": 500
+      },
+      "curve": "easeInOut"
+    }
+  },
+
+  "home": {
+    "sections": [
+      {
+        "id": "search",
+        "type": "search_bar",
+        "enabled": true,
+        "order": 1
+      },
+      {
+        "id": "banners",
+        "type": "banner_carousel",
+        "enabled": true,
+        "order": 2,
+        "config": {
+          "autoPlay": true,
+          "autoPlayInterval": 5000,
+          "showIndicators": true
+        }
+      },
+      {
+        "id": "categories",
+        "type": "category_list",
+        "enabled": true,
+        "order": 3,
+        "config": {
+          "displayMode": "horizontal",
+          "maxItems": 8,
+          "showAll": true
+        }
+      },
+      {
+        "id": "flash_deals",
+        "type": "product_list",
+        "enabled": true,
+        "order": 4,
+        "config": {
+          "title": "Flash Deals",
+          "emoji": "⚡",
+          "displayMode": "horizontal",
+          "maxItems": 10,
+          "showTimer": false,
+          "filterType": "flash_deal"
+        }
+      },
+      {
+        "id": "featured",
+        "type": "product_grid",
+        "enabled": true,
+        "order": 5,
+        "config": {
+          "title": "Featured Products",
+          "emoji": "✨",
+          "columns": 2,
+          "maxItems": 4,
+          "filterType": "featured"
+        }
+      },
+      {
+        "id": "recommendations",
+        "type": "product_list",
+        "enabled": false,
+        "order": 6,
+        "config": {
+          "title": "Recommended For You",
+          "emoji": "👍",
+          "displayMode": "horizontal",
+          "maxItems": 10,
+          "filterType": "recommended"
+        }
+      }
+    ]
+  },
+
+  "api": {
+    "baseUrl": "https://api.shopease.com",
+    "version": "v1",
+    "timeout": 30000,
+    "retryAttempts": 3,
+    "cacheEnabled": true,
+    "cacheDuration": 300
+  },
+
+  "analytics": {
+    "enabled": true,
+    "providers": {
+      "firebase": {
+        "enabled": false,
+        "projectId": ""
+      },
+      "mixpanel": {
+        "enabled": false,
+        "token": ""
+      }
+    },
+    "trackScreenViews": true,
+    "trackUserActions": true
+  },
+
+  "localization": {
+    "defaultLocale": "en",
+    "supportedLocales": ["en", "ar"],
+    "fallbackLocale": "en",
+    "rtlLanguages": ["ar"]
+  }
+}
+

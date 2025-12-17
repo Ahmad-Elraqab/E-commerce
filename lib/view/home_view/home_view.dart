@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:taxi_client_app/app/env/app_color.dart';
-import 'package:taxi_client_app/app/env/constants.dart';
-import 'package:taxi_client_app/app/env/text_style.dart';
+import 'package:taxi_client_app/app/config/app_config_service.dart';
+import 'package:taxi_client_app/app/config/dynamic_colors.dart';
+import 'package:taxi_client_app/app/config/models/feature_config.dart';
 import 'package:taxi_client_app/app/router/router.gr.dart';
 
 @RoutePage()
@@ -18,36 +17,26 @@ class _HomeViewState extends State<HomeView> {
   int _currentBannerIndex = 0;
   final PageController _bannerController = PageController();
 
+  // Configuration
+  late DynamicColors _colors;
+  late HomeFeatureConfig _homeConfig;
+  late String _fontFamily;
+
   final List<Map<String, dynamic>> _banners = [
-    {
-      'title': 'Summer Sale',
-      'subtitle': 'Up to 50% OFF',
-      'color': const Color(0xFFFF6B6B),
-      'gradient': [const Color(0xFFFF6B6B), const Color(0xFFFF8E53)],
-    },
-    {
-      'title': 'New Arrivals',
-      'subtitle': 'Check out the latest',
-      'color': const Color(0xFF4ECDC4),
-      'gradient': [const Color(0xFF4ECDC4), const Color(0xFF44A08D)],
-    },
-    {
-      'title': 'Flash Deals',
-      'subtitle': 'Limited time offers',
-      'color': const Color(0xFF667EEA),
-      'gradient': [const Color(0xFF667EEA), const Color(0xFF764BA2)],
-    },
+    {'title': 'Summer Sale', 'subtitle': 'Up to 50% OFF', 'gradientIndex': 0},
+    {'title': 'New Arrivals', 'subtitle': 'Check out the latest', 'gradientIndex': 1},
+    {'title': 'Flash Deals', 'subtitle': 'Limited time offers', 'gradientIndex': 2},
   ];
 
   final List<Map<String, dynamic>> _categories = [
-    {'name': 'Electronics', 'icon': Icons.devices, 'color': const Color(0xFF6C5CE7)},
-    {'name': 'Fashion', 'icon': Icons.checkroom, 'color': const Color(0xFFE84393)},
-    {'name': 'Home', 'icon': Icons.home_outlined, 'color': const Color(0xFFFF7675)},
-    {'name': 'Sports', 'icon': Icons.sports_basketball, 'color': const Color(0xFF00B894)},
-    {'name': 'Beauty', 'icon': Icons.spa_outlined, 'color': const Color(0xFFFDAA5D)},
-    {'name': 'Books', 'icon': Icons.menu_book, 'color': const Color(0xFF74B9FF)},
-    {'name': 'Toys', 'icon': Icons.toys_outlined, 'color': const Color(0xFFE17055)},
-    {'name': 'More', 'icon': Icons.grid_view, 'color': const Color(0xFF636E72)},
+    {'name': 'Electronics', 'icon': Icons.devices, 'colorIndex': 0},
+    {'name': 'Fashion', 'icon': Icons.checkroom, 'colorIndex': 1},
+    {'name': 'Home', 'icon': Icons.home_outlined, 'colorIndex': 2},
+    {'name': 'Sports', 'icon': Icons.sports_basketball, 'colorIndex': 3},
+    {'name': 'Beauty', 'icon': Icons.spa_outlined, 'colorIndex': 4},
+    {'name': 'Books', 'icon': Icons.menu_book, 'colorIndex': 5},
+    {'name': 'Toys', 'icon': Icons.toys_outlined, 'colorIndex': 6},
+    {'name': 'More', 'icon': Icons.grid_view, 'colorIndex': 7},
   ];
 
   final List<Map<String, dynamic>> _featuredProducts = [
@@ -57,7 +46,7 @@ class _HomeViewState extends State<HomeView> {
       'originalPrice': 199.99,
       'rating': 4.8,
       'reviews': 245,
-      'color': const Color(0xFF2D3436),
+      'colorIndex': 0,
     },
     {
       'name': 'Smart Watch Pro',
@@ -65,7 +54,7 @@ class _HomeViewState extends State<HomeView> {
       'originalPrice': 399.00,
       'rating': 4.6,
       'reviews': 189,
-      'color': const Color(0xFF6C5CE7),
+      'colorIndex': 1,
     },
     {
       'name': 'Running Shoes',
@@ -73,7 +62,7 @@ class _HomeViewState extends State<HomeView> {
       'originalPrice': 120.00,
       'rating': 4.7,
       'reviews': 312,
-      'color': const Color(0xFF00B894),
+      'colorIndex': 2,
     },
     {
       'name': 'Designer Bag',
@@ -81,9 +70,41 @@ class _HomeViewState extends State<HomeView> {
       'originalPrice': 200.00,
       'rating': 4.9,
       'reviews': 156,
-      'color': const Color(0xFFE84393),
+      'colorIndex': 3,
     },
   ];
+
+  // Category colors based on index
+  final List<Color> _categoryColors = [
+    const Color(0xFF6C5CE7),
+    const Color(0xFFE84393),
+    const Color(0xFFFF7675),
+    const Color(0xFF00B894),
+    const Color(0xFFFDAA5D),
+    const Color(0xFF74B9FF),
+    const Color(0xFFE17055),
+    const Color(0xFF636E72),
+  ];
+
+  // Product colors based on index
+  final List<Color> _productColors = [
+    const Color(0xFF2D3436),
+    const Color(0xFF6C5CE7),
+    const Color(0xFF00B894),
+    const Color(0xFFE84393),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadConfig();
+  }
+
+  void _loadConfig() {
+    _colors = DynamicColors.instance;
+    _homeConfig = AppConfigService.instance.getHomeConfig();
+    _fontFamily = AppConfigService.instance.fontFamily;
+  }
 
   @override
   void dispose() {
@@ -93,25 +114,39 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final gradients = AppConfigService.instance.config.theme.gradients;
+    final bannerGradients = gradients.getBannerGradients();
+
     return Scaffold(
-      backgroundColor: AppColor.reGreyF9F9F9,
+      backgroundColor: _colors.background,
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
             // Custom App Bar
             SliverToBoxAdapter(child: _buildAppBar()),
-            // Search Bar
-            SliverToBoxAdapter(child: _buildSearchBar()),
-            // Banner Carousel
-            SliverToBoxAdapter(child: _buildBannerCarousel()),
-            // Categories Section
-            SliverToBoxAdapter(child: _buildCategoriesSection()),
-            // Flash Deals Section
-            SliverToBoxAdapter(child: _buildSectionHeader('Flash Deals', '⚡', onTap: () {})),
-            SliverToBoxAdapter(child: _buildFlashDealsSection()),
-            // Featured Products Section
-            SliverToBoxAdapter(child: _buildSectionHeader('Featured Products', '✨', onTap: () {})),
-            SliverPadding(padding: const EdgeInsets.symmetric(horizontal: 16), sliver: _buildProductGrid()),
+
+            // Search Bar (configurable)
+            if (_homeConfig.showSearchBar) SliverToBoxAdapter(child: _buildSearchBar()),
+
+            // Banner Carousel (configurable)
+            if (_homeConfig.showBannerCarousel)
+              SliverToBoxAdapter(child: _buildBannerCarousel(bannerGradients)),
+
+            // Categories Section (configurable)
+            if (_homeConfig.showCategories) SliverToBoxAdapter(child: _buildCategoriesSection()),
+
+            // Flash Deals Section (configurable)
+            if (_homeConfig.showFlashDeals) ...[
+              SliverToBoxAdapter(child: _buildSectionHeader('Flash Deals', '⚡', onTap: () {})),
+              SliverToBoxAdapter(child: _buildFlashDealsSection()),
+            ],
+
+            // Featured Products Section (configurable)
+            if (_homeConfig.showFeaturedProducts) ...[
+              SliverToBoxAdapter(child: _buildSectionHeader('Featured Products', '✨', onTap: () {})),
+              SliverPadding(padding: const EdgeInsets.symmetric(horizontal: 16), sliver: _buildProductGrid()),
+            ],
+
             // Bottom padding for navigation
             const SliverToBoxAdapter(child: SizedBox(height: 100)),
           ],
@@ -129,9 +164,25 @@ class _HomeViewState extends State<HomeView> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Hello, User! 👋', style: AppTextStyle.regular14.copyWith(color: AppColor.reGrey666666)),
+              Text(
+                'Hello, User! 👋',
+                style: TextStyle(
+                  fontFamily: _fontFamily,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: _colors.textSecondary,
+                ),
+              ),
               const SizedBox(height: 4),
-              Text('Find your style', style: AppTextStyle.bold20.copyWith(color: AppColor.reBlack252525)),
+              Text(
+                'Find your style',
+                style: TextStyle(
+                  fontFamily: _fontFamily,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: _colors.textPrimary,
+                ),
+              ),
             ],
           ),
           Row(
@@ -161,15 +212,15 @@ class _HomeViewState extends State<HomeView> {
         width: 44,
         height: 44,
         decoration: BoxDecoration(
-          color: AppColor.reWhiteFFFFFF,
+          color: _colors.surface,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 2)),
+            BoxShadow(color: _colors.shadow.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 2)),
           ],
         ),
         child: Stack(
           children: [
-            Center(child: Icon(icon, color: AppColor.reBlack393939, size: 22)),
+            Center(child: Icon(icon, color: _colors.textPrimary, size: 22)),
             if (badgeCount > 0)
               Positioned(
                 right: 6,
@@ -177,14 +228,16 @@ class _HomeViewState extends State<HomeView> {
                 child: Container(
                   width: 18,
                   height: 18,
-                  decoration: BoxDecoration(
-                    color: AppColor.reOrangeFF9500,
-                    borderRadius: BorderRadius.circular(9),
-                  ),
+                  decoration: BoxDecoration(color: _colors.primary, borderRadius: BorderRadius.circular(9)),
                   child: Center(
                     child: Text(
                       badgeCount.toString(),
-                      style: AppTextStyle.bold10.copyWith(color: AppColor.reWhiteFFFFFF),
+                      style: TextStyle(
+                        fontFamily: _fontFamily,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700,
+                        color: _colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -202,28 +255,33 @@ class _HomeViewState extends State<HomeView> {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: AppColor.reWhiteFFFFFF,
+          color: _colors.surface,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 10, offset: const Offset(0, 2)),
+            BoxShadow(color: _colors.shadow.withOpacity(0.04), blurRadius: 10, offset: const Offset(0, 2)),
           ],
         ),
         child: Row(
           children: [
-            Icon(Icons.search, color: AppColor.reGrey9C9C9C, size: 22),
+            Icon(Icons.search, color: _colors.textDisabled, size: 22),
             const SizedBox(width: 12),
             Text(
               'Search products, brands...',
-              style: AppTextStyle.regular14.copyWith(color: AppColor.reGrey9C9C9C),
+              style: TextStyle(
+                fontFamily: _fontFamily,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: _colors.textDisabled,
+              ),
             ),
             const Spacer(),
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppColor.reOrangeFF9500.withOpacity(0.1),
+                color: _colors.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(Icons.tune, color: AppColor.reOrangeFF9500, size: 18),
+              child: Icon(Icons.tune, color: _colors.primary, size: 18),
             ),
           ],
         ),
@@ -231,7 +289,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildBannerCarousel() {
+  Widget _buildBannerCarousel(List<LinearGradient> bannerGradients) {
     return Column(
       children: [
         SizedBox(
@@ -244,18 +302,17 @@ class _HomeViewState extends State<HomeView> {
             itemCount: _banners.length,
             itemBuilder: (context, index) {
               final banner = _banners[index];
+              final gradientIndex = banner['gradientIndex'] as int;
+              final gradient = bannerGradients[gradientIndex % bannerGradients.length];
+
               return Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: banner['gradient'],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                  gradient: gradient,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: (banner['color'] as Color).withOpacity(0.3),
+                      color: gradient.colors.first.withOpacity(0.3),
                       blurRadius: 15,
                       offset: const Offset(0, 8),
                     ),
@@ -297,12 +354,23 @@ class _HomeViewState extends State<HomeView> {
                         children: [
                           Text(
                             banner['title'],
-                            style: AppTextStyle.bold24.copyWith(color: Colors.white, letterSpacing: 0.5),
+                            style: TextStyle(
+                              fontFamily: _fontFamily,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                              letterSpacing: 0.5,
+                            ),
                           ),
                           const SizedBox(height: 8),
                           Text(
                             banner['subtitle'],
-                            style: AppTextStyle.medium16.copyWith(color: Colors.white.withOpacity(0.9)),
+                            style: TextStyle(
+                              fontFamily: _fontFamily,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white.withOpacity(0.9),
+                            ),
                           ),
                           const SizedBox(height: 16),
                           Container(
@@ -313,7 +381,12 @@ class _HomeViewState extends State<HomeView> {
                             ),
                             child: Text(
                               'Shop Now',
-                              style: AppTextStyle.semiBold14.copyWith(color: banner['color']),
+                              style: TextStyle(
+                                fontFamily: _fontFamily,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: gradient.colors.first,
+                              ),
                             ),
                           ),
                         ],
@@ -336,7 +409,7 @@ class _HomeViewState extends State<HomeView> {
               width: _currentBannerIndex == index ? 24 : 8,
               height: 8,
               decoration: BoxDecoration(
-                color: _currentBannerIndex == index ? AppColor.reOrangeFF9500 : AppColor.reGreyD7D7D7,
+                color: _currentBannerIndex == index ? _colors.primary : _colors.border,
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
@@ -355,12 +428,25 @@ class _HomeViewState extends State<HomeView> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Categories', style: AppTextStyle.bold18.copyWith(color: AppColor.reBlack252525)),
+              Text(
+                'Categories',
+                style: TextStyle(
+                  fontFamily: _fontFamily,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: _colors.textPrimary,
+                ),
+              ),
               GestureDetector(
                 onTap: () => context.router.push(const CategoriesView()),
                 child: Text(
                   'See All',
-                  style: AppTextStyle.semiBold14.copyWith(color: AppColor.reOrangeFF9500),
+                  style: TextStyle(
+                    fontFamily: _fontFamily,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: _colors.primary,
+                  ),
                 ),
               ),
             ],
@@ -374,6 +460,9 @@ class _HomeViewState extends State<HomeView> {
             itemCount: _categories.length,
             itemBuilder: (context, index) {
               final category = _categories[index];
+              final colorIndex = category['colorIndex'] as int;
+              final categoryColor = _categoryColors[colorIndex % _categoryColors.length];
+
               return GestureDetector(
                 onTap: () => context.router.push(ProductsView(category: category['name'])),
                 child: Container(
@@ -385,15 +474,20 @@ class _HomeViewState extends State<HomeView> {
                         width: 60,
                         height: 60,
                         decoration: BoxDecoration(
-                          color: (category['color'] as Color).withOpacity(0.12),
+                          color: categoryColor.withOpacity(0.12),
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: Icon(category['icon'], color: category['color'], size: 28),
+                        child: Icon(category['icon'], color: categoryColor, size: 28),
                       ),
                       const SizedBox(height: 8),
                       Text(
                         category['name'],
-                        style: AppTextStyle.medium12.copyWith(color: AppColor.reBlack4D4D4D),
+                        style: TextStyle(
+                          fontFamily: _fontFamily,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: _colors.textPrimary,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
@@ -417,7 +511,15 @@ class _HomeViewState extends State<HomeView> {
         children: [
           Row(
             children: [
-              Text(title, style: AppTextStyle.bold18.copyWith(color: AppColor.reBlack252525)),
+              Text(
+                title,
+                style: TextStyle(
+                  fontFamily: _fontFamily,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: _colors.textPrimary,
+                ),
+              ),
               const SizedBox(width: 4),
               Text(emoji, style: const TextStyle(fontSize: 18)),
             ],
@@ -427,9 +529,17 @@ class _HomeViewState extends State<HomeView> {
               onTap: onTap,
               child: Row(
                 children: [
-                  Text('See All', style: AppTextStyle.semiBold14.copyWith(color: AppColor.reOrangeFF9500)),
+                  Text(
+                    'See All',
+                    style: TextStyle(
+                      fontFamily: _fontFamily,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: _colors.primary,
+                    ),
+                  ),
                   const SizedBox(width: 4),
-                  Icon(Icons.arrow_forward_ios, size: 12, color: AppColor.reOrangeFF9500),
+                  Icon(Icons.arrow_forward_ios, size: 12, color: _colors.primary),
                 ],
               ),
             ),
@@ -447,6 +557,8 @@ class _HomeViewState extends State<HomeView> {
         itemCount: _featuredProducts.length,
         itemBuilder: (context, index) {
           final product = _featuredProducts[index];
+          final colorIndex = product['colorIndex'] as int;
+          final productColor = _productColors[colorIndex % _productColors.length];
           final discount = ((product['originalPrice'] - product['price']) / product['originalPrice'] * 100)
               .round();
 
@@ -456,11 +568,11 @@ class _HomeViewState extends State<HomeView> {
               width: 160,
               margin: const EdgeInsets.symmetric(horizontal: 4),
               decoration: BoxDecoration(
-                color: AppColor.reWhiteFFFFFF,
+                color: _colors.surface,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: _colors.shadow.withOpacity(0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -475,15 +587,11 @@ class _HomeViewState extends State<HomeView> {
                       Container(
                         height: 120,
                         decoration: BoxDecoration(
-                          color: (product['color'] as Color).withOpacity(0.1),
+                          color: productColor.withOpacity(0.1),
                           borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                         ),
                         child: Center(
-                          child: Icon(
-                            Icons.shopping_bag,
-                            size: 50,
-                            color: (product['color'] as Color).withOpacity(0.5),
-                          ),
+                          child: Icon(Icons.shopping_bag, size: 50, color: productColor.withOpacity(0.5)),
                         ),
                       ),
                       // Discount badge
@@ -493,12 +601,17 @@ class _HomeViewState extends State<HomeView> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: AppColor.reRedFF3B30,
+                            color: _colors.error,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
                             '-$discount%',
-                            style: AppTextStyle.bold10.copyWith(color: Colors.white),
+                            style: TextStyle(
+                              fontFamily: _fontFamily,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -512,9 +625,9 @@ class _HomeViewState extends State<HomeView> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
-                            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 5)],
+                            boxShadow: [BoxShadow(color: _colors.shadow.withOpacity(0.1), blurRadius: 5)],
                           ),
-                          child: Icon(Icons.favorite_border, size: 16, color: AppColor.reGrey666666),
+                          child: Icon(Icons.favorite_border, size: 16, color: _colors.textSecondary),
                         ),
                       ),
                     ],
@@ -527,22 +640,37 @@ class _HomeViewState extends State<HomeView> {
                       children: [
                         Text(
                           product['name'],
-                          style: AppTextStyle.medium14.copyWith(color: AppColor.reBlack393939),
+                          style: TextStyle(
+                            fontFamily: _fontFamily,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: _colors.textPrimary,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.star, size: 14, color: AppColor.reYellowFF9500),
+                            Icon(Icons.star, size: 14, color: _colors.warning),
                             const SizedBox(width: 4),
                             Text(
                               '${product['rating']}',
-                              style: AppTextStyle.medium12.copyWith(color: AppColor.reBlack4D4D4D),
+                              style: TextStyle(
+                                fontFamily: _fontFamily,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: _colors.textPrimary,
+                              ),
                             ),
                             Text(
                               ' (${product['reviews']})',
-                              style: AppTextStyle.regular12.copyWith(color: AppColor.reGrey9C9C9C),
+                              style: TextStyle(
+                                fontFamily: _fontFamily,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: _colors.textDisabled,
+                              ),
                             ),
                           ],
                         ),
@@ -551,13 +679,21 @@ class _HomeViewState extends State<HomeView> {
                           children: [
                             Text(
                               '\$${product['price']}',
-                              style: AppTextStyle.bold16.copyWith(color: AppColor.reOrangeFF9500),
+                              style: TextStyle(
+                                fontFamily: _fontFamily,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: _colors.primary,
+                              ),
                             ),
                             const SizedBox(width: 6),
                             Text(
                               '\$${product['originalPrice']}',
-                              style: AppTextStyle.regular12.copyWith(
-                                color: AppColor.reGrey9C9C9C,
+                              style: TextStyle(
+                                fontFamily: _fontFamily,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: _colors.textDisabled,
                                 decoration: TextDecoration.lineThrough,
                               ),
                             ),
@@ -585,14 +721,21 @@ class _HomeViewState extends State<HomeView> {
       ),
       delegate: SliverChildBuilderDelegate((context, index) {
         final product = _featuredProducts[index % _featuredProducts.length];
+        final colorIndex = product['colorIndex'] as int;
+        final productColor = _productColors[colorIndex % _productColors.length];
+
         return GestureDetector(
           onTap: () => context.router.push(ProductDetailsView(productId: index.toString())),
           child: Container(
             decoration: BoxDecoration(
-              color: AppColor.reWhiteFFFFFF,
+              color: _colors.surface,
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4)),
+                BoxShadow(
+                  color: _colors.shadow.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
               ],
             ),
             child: Column(
@@ -605,15 +748,11 @@ class _HomeViewState extends State<HomeView> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: (product['color'] as Color).withOpacity(0.1),
+                          color: productColor.withOpacity(0.1),
                           borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                         ),
                         child: Center(
-                          child: Icon(
-                            Icons.shopping_bag,
-                            size: 50,
-                            color: (product['color'] as Color).withOpacity(0.5),
-                          ),
+                          child: Icon(Icons.shopping_bag, size: 50, color: productColor.withOpacity(0.5)),
                         ),
                       ),
                       Positioned(
@@ -625,9 +764,9 @@ class _HomeViewState extends State<HomeView> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
-                            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 5)],
+                            boxShadow: [BoxShadow(color: _colors.shadow.withOpacity(0.1), blurRadius: 5)],
                           ),
-                          child: Icon(Icons.favorite_border, size: 16, color: AppColor.reGrey666666),
+                          child: Icon(Icons.favorite_border, size: 16, color: _colors.textSecondary),
                         ),
                       ),
                     ],
@@ -644,7 +783,12 @@ class _HomeViewState extends State<HomeView> {
                       children: [
                         Text(
                           product['name'],
-                          style: AppTextStyle.medium14.copyWith(color: AppColor.reBlack393939),
+                          style: TextStyle(
+                            fontFamily: _fontFamily,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: _colors.textPrimary,
+                          ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -653,15 +797,25 @@ class _HomeViewState extends State<HomeView> {
                           children: [
                             Text(
                               '\$${product['price']}',
-                              style: AppTextStyle.bold16.copyWith(color: AppColor.reOrangeFF9500),
+                              style: TextStyle(
+                                fontFamily: _fontFamily,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: _colors.primary,
+                              ),
                             ),
                             Row(
                               children: [
-                                Icon(Icons.star, size: 14, color: AppColor.reYellowFF9500),
+                                Icon(Icons.star, size: 14, color: _colors.warning),
                                 const SizedBox(width: 2),
                                 Text(
                                   '${product['rating']}',
-                                  style: AppTextStyle.medium12.copyWith(color: AppColor.reBlack4D4D4D),
+                                  style: TextStyle(
+                                    fontFamily: _fontFamily,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: _colors.textPrimary,
+                                  ),
                                 ),
                               ],
                             ),
