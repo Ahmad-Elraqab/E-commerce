@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:taxi_client_app/app/config/models/app_config_model.dart';
-import 'package:taxi_client_app/app/config/models/feature_config.dart';
+import 'package:taxi_client_app/data/models/config/app_config_model.dart';
+import 'package:taxi_client_app/data/models/config/feature_config.dart';
 
 /// Service for loading and providing app configuration
 ///

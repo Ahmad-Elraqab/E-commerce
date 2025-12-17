@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_client_app/app/config/app_config_service.dart';
-import 'package:taxi_client_app/app/config/models/theme_config.dart';
+import 'package:taxi_client_app/data/models/config/theme_config.dart';
 
 /// Dynamic colors that read from JSON configuration
 ///

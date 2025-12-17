@@ -19,15 +19,6 @@
 
 library config;
 
-// Models
-export 'models/app_config_model.dart';
-export 'models/theme_config.dart';
-export 'models/branding_config.dart';
-export 'models/feature_config.dart';
-export 'models/navigation_config.dart';
-export 'models/ui_config.dart';
-export 'models/home_config.dart';
-
 // Services
 export 'app_config_service.dart';
 

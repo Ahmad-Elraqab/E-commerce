@@ -10,34 +10,39 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i18;
 import 'package:flutter/material.dart' as _i19;
-import 'package:taxi_client_app/view/auth/login_view.dart' deferred as _i5;
-import 'package:taxi_client_app/view/auth/register_view.dart' deferred as _i12;
-import 'package:taxi_client_app/view/cart_view/cart_view.dart' deferred as _i1;
-import 'package:taxi_client_app/view/categories_view/categories_view.dart'
+import 'package:taxi_client_app/presentation/views/auth/login_view.dart'
+    deferred as _i5;
+import 'package:taxi_client_app/presentation/views/auth/register_view.dart'
+    deferred as _i12;
+import 'package:taxi_client_app/presentation/views/cart_view/cart_view.dart'
+    deferred as _i1;
+import 'package:taxi_client_app/presentation/views/categories_view/categories_view.dart'
     deferred as _i2;
-import 'package:taxi_client_app/view/checkout_view/checkout_view.dart'
+import 'package:taxi_client_app/presentation/views/checkout_view/checkout_view.dart'
     deferred as _i3;
-import 'package:taxi_client_app/view/home_view/home_view.dart' deferred as _i4;
-import 'package:taxi_client_app/view/main_view.dart' deferred as _i6;
-import 'package:taxi_client_app/view/order_details_view/order_details_view.dart'
+import 'package:taxi_client_app/presentation/views/home_view/home_view.dart'
+    deferred as _i4;
+import 'package:taxi_client_app/presentation/views/main_view.dart'
+    deferred as _i6;
+import 'package:taxi_client_app/presentation/views/order_details_view/order_details_view.dart'
     deferred as _i7;
-import 'package:taxi_client_app/view/orders_view/orders_view.dart'
+import 'package:taxi_client_app/presentation/views/orders_view/orders_view.dart'
     deferred as _i8;
-import 'package:taxi_client_app/view/product_details_view/product_details_view.dart'
+import 'package:taxi_client_app/presentation/views/product_details_view/product_details_view.dart'
     deferred as _i9;
-import 'package:taxi_client_app/view/products_view/products_view.dart'
+import 'package:taxi_client_app/presentation/views/products_view/products_view.dart'
     deferred as _i10;
-import 'package:taxi_client_app/view/profile_view/profile_view.dart'
+import 'package:taxi_client_app/presentation/views/profile_view/profile_view.dart'
     deferred as _i11;
-import 'package:taxi_client_app/view/search_view/search_view.dart'
+import 'package:taxi_client_app/presentation/views/search_view/search_view.dart'
     deferred as _i13;
-import 'package:taxi_client_app/view/splash_view/splash_view.dart'
+import 'package:taxi_client_app/presentation/views/splash_view/splash_view.dart'
     deferred as _i14;
-import 'package:taxi_client_app/view/vendors_view/vendor_details_view.dart'
+import 'package:taxi_client_app/presentation/views/vendors_view/vendor_details_view.dart'
     deferred as _i15;
-import 'package:taxi_client_app/view/vendors_view/vendors_view.dart'
+import 'package:taxi_client_app/presentation/views/vendors_view/vendors_view.dart'
     deferred as _i16;
-import 'package:taxi_client_app/view/wishlist_view/wishlist_view.dart'
+import 'package:taxi_client_app/presentation/views/wishlist_view/wishlist_view.dart'
     deferred as _i17;
 
 abstract class $AppRouter extends _i18.RootStackRouter {

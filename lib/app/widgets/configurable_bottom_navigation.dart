@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:taxi_client_app/app/config/app_config_service.dart';
 import 'package:taxi_client_app/app/config/dynamic_colors.dart';
-import 'package:taxi_client_app/app/config/models/navigation_config.dart';
+import 'package:taxi_client_app/data/models/config/navigation_config.dart';
 
 /// Configurable bottom navigation that reads from JSON configuration
 ///
